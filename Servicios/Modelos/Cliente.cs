@@ -9,13 +9,13 @@ namespace Servicios.Modelos
     public class Cliente
     {
         public long id { get; set; }
-        public string Nombre { get; set; }
+        public string nombre { get; set; }
         public long DNI { get; set; }
 
 
         public Cliente(string nombre, long dni)
         {
-            this.Nombre = nombre;
+            this.nombre = nombre;
             this.DNI = dni;
         }
 
@@ -23,7 +23,7 @@ namespace Servicios.Modelos
         public Cliente(long id, string nombre, long dni)
         {
             this.id = id;
-            this.Nombre = nombre;
+            this.nombre = nombre;
             this.DNI = dni;
         }
 

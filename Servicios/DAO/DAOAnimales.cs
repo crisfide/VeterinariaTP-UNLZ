@@ -1,55 +1,32 @@
-﻿using System;
+﻿using Servicios.Modelos;
+using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Servicios.Modelos;
 
 namespace Servicios.DAO
 {
-    public class DAOUsuarios : DAO
+    public class DAOAnimales : DAO
     {
-
-        public Usuario verificarUsuario(string nombre, string clave)
-        {
-            Usuario usuarioEncontrado = null;
-            string query = $"SELECT * FROM USUARIOS WHERE NOMBRE='{nombre}' AND CLAVE='{clave}';";
-
-            IDbConnection conexion = this.PrepararConexion();
-            IDbCommand comando = conexion.CreateCommand();
-            comando.CommandText = query;
-
-            IDataReader lector = comando.ExecuteReader();
-            if (lector.Read())
-            {
-                usuarioEncontrado = new Usuario()
-                {
-                    id = lector.GetInt32(0),
-                    nombre = lector.GetString(1),
-                    clave = lector.GetString(2),
-                };
-            }
-
-            conexion.Close();
-            return usuarioEncontrado;
-        }
-
-        public List<Usuario> GetAll()
+        public List<Animal> GetAll()
         {
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
-            comando.CommandText = "SELECT * FROM Usuarios";
+            comando.CommandText = "SELECT * FROM Animales";
 
             IDataReader lector = comando.ExecuteReader();
-            List<Usuario> lista = new List<Usuario>();
+            List<Animal> lista = new List<Animal>();
 
             while (lector.Read())
             {
-                lista.Add(new Usuario(lector.GetInt32(0),
+                lista.Add(new Animal(lector.GetInt32(0),
                                       lector.GetString(1),
-                                      lector.GetString(2)
+                                      lector.GetInt32(2),
+                                      lector.GetDecimal(3),
+                                      lector.GetInt32(4),
+                                      lector.GetInt32(5)
                                       ));
             }
 
@@ -58,11 +35,11 @@ namespace Servicios.DAO
         }
 
 
-        public bool Insert(Usuario usuario)
+        public bool Insert(Animal animal)
         {
-            string query = $"INSERT INTO Usuarios " +
-                $"(nombre, clave) VALUES " +
-                $"('{usuario.nombre}', '{usuario.clave}');";
+            string query = $"INSERT INTO Animales " +
+                $"(nombre, EDAD, PESO, CLIENTE_ID, ESPECIE_ID) VALUES " +
+                $"('{animal.nombre}', '{animal.edad}', '{animal.peso}', '{animal.clienteId}', '{animal.especieId}' );";
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
             comando.CommandText = query;
@@ -73,33 +50,36 @@ namespace Servicios.DAO
             return filasAfectadas > 0;
         }
 
-        public Usuario GetByID(long id)
+        public Animal GetByID(long id)
         {
-            Usuario usuarioEncontrado = null;
+            Animal animalEncontrado = null;
 
-            string query = $"SELECT * FROM Usuarios WHERE ID = {id}";
+            string query = $"SELECT * FROM Animales WHERE ID = {id}";
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
             comando.CommandText = query;
-            
+
             IDataReader lector = comando.ExecuteReader();
             if (lector.Read())
             {
-                usuarioEncontrado = new Usuario()
+                animalEncontrado = new Animal()
                 {
                     id = lector.GetInt32(0),
                     nombre = lector.GetString(1),
-                    clave = lector.GetString(2),
+                    edad= lector.GetInt32(2),
+                    peso= lector.GetDecimal(3),
+                    clienteId = lector.GetInt32(4),
+                    especieId = lector.GetInt32(5),
                 };
             }
 
             conexion.Close();
-            return usuarioEncontrado;
+            return animalEncontrado;
         }
 
-        public bool Update(long id, string nombre, string clave)
+        public bool Update(long id, string nombre, long edad, decimal peso, long clienteID, long especieID)
         {
-            string query = $"UPDATE Usuarios SET NOMBRE = '{nombre}', CLAVE = '{clave}' WHERE ID = {id}";
+            string query = $"UPDATE Animales SET NOMBRE = '{nombre}', EDAD= '{edad}', PESO= '{peso}', CLIENTE_ID= '{clienteID}', ESPECIE_ID= '{especieID}' WHERE ID = {especieID}";
 
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
@@ -112,9 +92,9 @@ namespace Servicios.DAO
 
         }
 
-        public bool Update(string nombreViejo, string nombreNuevo, string clave)
+        public bool Update(string nombreViejo, string nombreNuevo, long edad, decimal peso, long clienteID, long especieID)
         {
-            string query = $"UPDATE Usuarios SET NOMBRE = '{nombreNuevo}', CLAVE = '{clave}' WHERE NOMBRE = '{nombreViejo}'";
+            string query = $"UPDATE Animales SET NOMBRE = '{nombreNuevo}', EDAD= '{edad}', PESO= '{peso}', CLIENTE_ID= '{clienteID}', ESPECIE_ID= '{especieID}' WHERE NOMBRE = '{nombreViejo}'";
 
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
@@ -130,7 +110,7 @@ namespace Servicios.DAO
 
         public bool Delete(long id)
         {
-            string query = $"DELETE FROM Usuarios WHERE ID = {id}";
+            string query = $"DELETE FROM Animales WHERE ID = {id}";
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
             comando.CommandText = query;
@@ -143,7 +123,7 @@ namespace Servicios.DAO
 
         public bool Delete(string nombre)
         {
-            string query = $"DELETE FROM Usuarios WHERE NOMBRE = '{nombre}'";
+            string query = $"DELETE FROM Animales WHERE NOMBRE = '{nombre}'";
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
             comando.CommandText = query;
@@ -153,6 +133,5 @@ namespace Servicios.DAO
             conexion.Close();
             return filas > 0;
         }
-
     }
 }

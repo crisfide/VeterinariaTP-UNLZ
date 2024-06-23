@@ -1,55 +1,29 @@
-﻿using System;
+﻿using Servicios.Modelos;
+using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Servicios.Modelos;
 
 namespace Servicios.DAO
 {
-    public class DAOUsuarios : DAO
+    public class DAOClientes : DAO
     {
-
-        public Usuario verificarUsuario(string nombre, string clave)
-        {
-            Usuario usuarioEncontrado = null;
-            string query = $"SELECT * FROM USUARIOS WHERE NOMBRE='{nombre}' AND CLAVE='{clave}';";
-
-            IDbConnection conexion = this.PrepararConexion();
-            IDbCommand comando = conexion.CreateCommand();
-            comando.CommandText = query;
-
-            IDataReader lector = comando.ExecuteReader();
-            if (lector.Read())
-            {
-                usuarioEncontrado = new Usuario()
-                {
-                    id = lector.GetInt32(0),
-                    nombre = lector.GetString(1),
-                    clave = lector.GetString(2),
-                };
-            }
-
-            conexion.Close();
-            return usuarioEncontrado;
-        }
-
-        public List<Usuario> GetAll()
+        public List<Cliente> GetAll()
         {
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
-            comando.CommandText = "SELECT * FROM Usuarios";
+            comando.CommandText = "SELECT * FROM Clientes";
 
             IDataReader lector = comando.ExecuteReader();
-            List<Usuario> lista = new List<Usuario>();
+            List<Cliente> lista = new List<Cliente>();
 
             while (lector.Read())
             {
-                lista.Add(new Usuario(lector.GetInt32(0),
+                lista.Add(new Cliente(lector.GetInt32(0),
                                       lector.GetString(1),
-                                      lector.GetString(2)
+                                      lector.GetInt32(2)
                                       ));
             }
 
@@ -58,11 +32,9 @@ namespace Servicios.DAO
         }
 
 
-        public bool Insert(Usuario usuario)
+        public bool Insert(Cliente cliente)
         {
-            string query = $"INSERT INTO Usuarios " +
-                $"(nombre, clave) VALUES " +
-                $"('{usuario.nombre}', '{usuario.clave}');";
+            string query = $"INSERT INTO Clientes (nombre, dni) VALUES ('{cliente.nombre}', '{cliente.DNI}');";
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
             comando.CommandText = query;
@@ -73,33 +45,33 @@ namespace Servicios.DAO
             return filasAfectadas > 0;
         }
 
-        public Usuario GetByID(long id)
+        public Cliente GetByID(long id)
         {
-            Usuario usuarioEncontrado = null;
+            Cliente clienteEncontrado = null;
 
-            string query = $"SELECT * FROM Usuarios WHERE ID = {id}";
+            string query = $"SELECT * FROM Clientes WHERE ID = {id}";
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
             comando.CommandText = query;
-            
+
             IDataReader lector = comando.ExecuteReader();
             if (lector.Read())
             {
-                usuarioEncontrado = new Usuario()
+                clienteEncontrado = new Cliente()
                 {
                     id = lector.GetInt32(0),
                     nombre = lector.GetString(1),
-                    clave = lector.GetString(2),
+                    DNI = lector.GetInt32(2),
                 };
             }
 
             conexion.Close();
-            return usuarioEncontrado;
+            return clienteEncontrado;
         }
 
-        public bool Update(long id, string nombre, string clave)
+        public bool Update(long id, string nombre, long dni)
         {
-            string query = $"UPDATE Usuarios SET NOMBRE = '{nombre}', CLAVE = '{clave}' WHERE ID = {id}";
+            string query = $"UPDATE Clientes SET NOMBRE = '{nombre}', DNI = '{dni}' WHERE ID = {id}";
 
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
@@ -112,9 +84,9 @@ namespace Servicios.DAO
 
         }
 
-        public bool Update(string nombreViejo, string nombreNuevo, string clave)
+        public bool Update(string nombreViejo, string nombreNuevo, long dni)
         {
-            string query = $"UPDATE Usuarios SET NOMBRE = '{nombreNuevo}', CLAVE = '{clave}' WHERE NOMBRE = '{nombreViejo}'";
+            string query = $"UPDATE Clientes SET NOMBRE = '{nombreNuevo}', DNI = '{dni}' WHERE NOMBRE = '{nombreViejo}'";
 
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
@@ -130,7 +102,7 @@ namespace Servicios.DAO
 
         public bool Delete(long id)
         {
-            string query = $"DELETE FROM Usuarios WHERE ID = {id}";
+            string query = $"DELETE FROM Clientes WHERE ID = {id}";
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
             comando.CommandText = query;
@@ -143,7 +115,7 @@ namespace Servicios.DAO
 
         public bool Delete(string nombre)
         {
-            string query = $"DELETE FROM Usuarios WHERE NOMBRE = '{nombre}'";
+            string query = $"DELETE FROM Clientes WHERE NOMBRE = '{nombre}'";
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
             comando.CommandText = query;
@@ -153,6 +125,5 @@ namespace Servicios.DAO
             conexion.Close();
             return filas > 0;
         }
-
     }
 }

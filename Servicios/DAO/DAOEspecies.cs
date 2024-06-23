@@ -1,55 +1,30 @@
-﻿using System;
+﻿using Servicios.Modelos;
+using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Servicios.Modelos;
 
 namespace Servicios.DAO
 {
-    public class DAOUsuarios : DAO
+    public class DAOEspecies : DAO
     {
-
-        public Usuario verificarUsuario(string nombre, string clave)
-        {
-            Usuario usuarioEncontrado = null;
-            string query = $"SELECT * FROM USUARIOS WHERE NOMBRE='{nombre}' AND CLAVE='{clave}';";
-
-            IDbConnection conexion = this.PrepararConexion();
-            IDbCommand comando = conexion.CreateCommand();
-            comando.CommandText = query;
-
-            IDataReader lector = comando.ExecuteReader();
-            if (lector.Read())
-            {
-                usuarioEncontrado = new Usuario()
-                {
-                    id = lector.GetInt32(0),
-                    nombre = lector.GetString(1),
-                    clave = lector.GetString(2),
-                };
-            }
-
-            conexion.Close();
-            return usuarioEncontrado;
-        }
-
-        public List<Usuario> GetAll()
+        public List<Especie> GetAll()
         {
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
-            comando.CommandText = "SELECT * FROM Usuarios";
+            comando.CommandText = "SELECT * FROM Especies";
 
             IDataReader lector = comando.ExecuteReader();
-            List<Usuario> lista = new List<Usuario>();
+            List<Especie> lista = new List<Especie>();
 
             while (lector.Read())
             {
-                lista.Add(new Usuario(lector.GetInt32(0),
+                lista.Add(new Especie(lector.GetInt32(0),
                                       lector.GetString(1),
-                                      lector.GetString(2)
+                                      lector.GetInt32(2),
+                                      lector.GetDecimal(3)
                                       ));
             }
 
@@ -58,11 +33,11 @@ namespace Servicios.DAO
         }
 
 
-        public bool Insert(Usuario usuario)
+        public bool Insert(Especie especie)
         {
-            string query = $"INSERT INTO Usuarios " +
-                $"(nombre, clave) VALUES " +
-                $"('{usuario.nombre}', '{usuario.clave}');";
+            string query = $"INSERT INTO Especies " +
+                $"(nombre, EDAD_MADUREZ, PESO_PROMEDIO) VALUES " +
+                $"('{especie.nombre}', '{especie.EdadMadurez}', '{especie.PesoPromedio}' );";
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
             comando.CommandText = query;
@@ -73,33 +48,34 @@ namespace Servicios.DAO
             return filasAfectadas > 0;
         }
 
-        public Usuario GetByID(long id)
+        public Especie GetByID(long id)
         {
-            Usuario usuarioEncontrado = null;
+            Especie especieEncontrada = null;
 
-            string query = $"SELECT * FROM Usuarios WHERE ID = {id}";
+            string query = $"SELECT * FROM Especies WHERE ID = {id}";
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
             comando.CommandText = query;
-            
+
             IDataReader lector = comando.ExecuteReader();
             if (lector.Read())
             {
-                usuarioEncontrado = new Usuario()
+                especieEncontrada = new Especie()
                 {
                     id = lector.GetInt32(0),
                     nombre = lector.GetString(1),
-                    clave = lector.GetString(2),
+                    EdadMadurez = lector.GetInt32(2),
+                    PesoPromedio = lector.GetDecimal(3)
                 };
             }
 
             conexion.Close();
-            return usuarioEncontrado;
+            return especieEncontrada;
         }
 
-        public bool Update(long id, string nombre, string clave)
+        public bool Update(long id, string nombre, long edadMadurez, decimal pesoPromedio)
         {
-            string query = $"UPDATE Usuarios SET NOMBRE = '{nombre}', CLAVE = '{clave}' WHERE ID = {id}";
+            string query = $"UPDATE Especies SET NOMBRE = '{nombre}', EDAD_MADUREZ = '{edadMadurez}', PESO_PROMEDIO = '{pesoPromedio}' WHERE ID = {id}";
 
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
@@ -112,9 +88,9 @@ namespace Servicios.DAO
 
         }
 
-        public bool Update(string nombreViejo, string nombreNuevo, string clave)
+        public bool Update(string nombreViejo, string nombreNuevo, long edadMadurez, decimal pesoPromedio)
         {
-            string query = $"UPDATE Usuarios SET NOMBRE = '{nombreNuevo}', CLAVE = '{clave}' WHERE NOMBRE = '{nombreViejo}'";
+            string query = $"UPDATE Especies SET NOMBRE = '{nombreNuevo}', EDAD_MADUREZ = '{edadMadurez}', PESO_PROMEDIO = '{pesoPromedio}' WHERE NOMBRE = '{nombreViejo}'";
 
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
@@ -130,7 +106,7 @@ namespace Servicios.DAO
 
         public bool Delete(long id)
         {
-            string query = $"DELETE FROM Usuarios WHERE ID = {id}";
+            string query = $"DELETE FROM Especies WHERE ID = {id}";
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
             comando.CommandText = query;
@@ -143,7 +119,7 @@ namespace Servicios.DAO
 
         public bool Delete(string nombre)
         {
-            string query = $"DELETE FROM Usuarios WHERE NOMBRE = '{nombre}'";
+            string query = $"DELETE FROM Especies WHERE NOMBRE = '{nombre}'";
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
             comando.CommandText = query;
@@ -153,6 +129,5 @@ namespace Servicios.DAO
             conexion.Close();
             return filas > 0;
         }
-
     }
 }
