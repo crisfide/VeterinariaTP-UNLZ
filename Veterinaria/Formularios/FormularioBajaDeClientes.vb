@@ -1,41 +1,35 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Drawing.Text
 Imports System.Reflection.Emit
-
+Imports Servicios
+Imports Servicios.DAO
+Imports Servicios.Modelos
 
 Public Class FormularioBajaDeClientes
 
     Private Sub FormularioAlta_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadClientNames()
-
     End Sub
 
-    Private connectionString As String = "Data Source=NOTEBOOK_CASA\SQLEXPRESS01;Initial Catalog=Veterinaria;Integrated Security=True"
+    'Private connectionString As String = "Data Source=NOTEBOOK_CASA\SQLEXPRESS01;Initial Catalog=Veterinaria;Integrated Security=True"
 
+    Dim daoC As New DAOClientes
     Private Sub LoadClientNames()
-        Using connection As New SqlConnection(connectionString)
-            connection.Open()
-            Dim query As String = "SELECT Id_Cliente,nombreCliente FROM Clientes"
+        Try
+            Dim listado As List(Of Cliente) = daoC.GetAll()
 
-            Dim adapter As New SqlDataAdapter(query, connection)
-            Dim table As New DataTable()
-            adapter.Fill(table)
-            ComboBox1.DataSource = table
-            ComboBox1.DisplayMember = "nombreCliente"
-            ComboBox1.ValueMember = "Id_Cliente"
+            ComboBox1.DataSource = listado
+            ComboBox1.DisplayMember = "nombre"
+            ComboBox1.ValueMember = "id"
 
-
-
-
-
-
-        End Using
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
         Dim ID_Cliente As Integer
-
 
         If ComboBox1.SelectedItem IsNot Nothing Then
             ID_Cliente = CInt(ComboBox1.SelectedValue)
@@ -46,9 +40,6 @@ Public Class FormularioBajaDeClientes
                 BorrarCliente(ID_Cliente)
             End If
 
-
-
-
         Else
             MessageBox.Show("Por favor, selecciona un cliente.")
         End If
@@ -57,32 +48,18 @@ Public Class FormularioBajaDeClientes
 
 
     Private Sub BorrarCliente(ID_Cliente)
+        Try
+            If daoC.Delete(ID_Cliente) Then
+                MsgBox("Eliminado correctamente")
+            Else
+                Throw New Exception("No se pudo eliminar")
+            End If
 
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
 
-        Dim connectionString As String = "Data Source=NOTEBOOK_CASA\SQLEXPRESS01;Initial Catalog=Veterinaria;Integrated Security=True"
-
-        Dim query As String = "DELETE FROM CLIENTES WHERE ID_Cliente = @ID_Cliente"
-
-
-        Using connection As New SqlConnection(connectionString)
-            Using command As New SqlCommand(query, connection)
-
-                command.Parameters.AddWithValue("@ID_Cliente", ID_Cliente)
-                connection.Open()
-
-                Dim result As Integer = Convert.ToInt32(command.ExecuteScalar())
-
-                If result Then
-                    MsgBox("Error en la baja de Cliente :(")
-
-                Else
-                    MsgBox("Baja del Cliente Exitosa!!!")
-                    Me.Close()
-                End If
-
-            End Using
-        End Using
-
+        Me.Close()
     End Sub
 
 End Class

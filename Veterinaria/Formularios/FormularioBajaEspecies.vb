@@ -1,35 +1,29 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Drawing.Text
 Imports System.Reflection.Emit
+Imports Servicios
+Imports Servicios.DAO
+Imports Servicios.Modelos
 
 Public Class FormularioBajaEspecies
 
 
     Private Sub FormularioAlta_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         LoadEspeciesName()
     End Sub
 
-    Private connectionString As String = "Data Source=NOTEBOOK_CASA\SQLEXPRESS01;Initial Catalog=Veterinaria;Integrated Security=True"
-
-
-
+    Private daoE As New DAOEspecies
     Private Sub LoadEspeciesName()
-        Using connection As New SqlConnection(connectionString)
-            connection.Open()
-            Dim query As String = "SELECT Id_Especie,Nombre_Especie FROM Especies"
+        Try
+            Dim listado As List(Of Especie) = daoE.GetAll()
 
-            Dim adapter As New SqlDataAdapter(query, connection)
-            Dim table2 As New DataTable()
-            adapter.Fill(table2)
+            ComboBox1.DataSource = listado
+            ComboBox1.DisplayMember = "nombre"
+            ComboBox1.ValueMember = "id"
 
-            table2.Columns.Add("DisplayColumn", GetType(String), "CONVERT(Id_Especie, System.String) + ' - ' + Nombre_Especie")
-
-            ComboBox1.DataSource = table2
-            ComboBox1.DisplayMember = "DisplayColumn"
-            ComboBox1.ValueMember = "Id_Especie"
-
-        End Using
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
     End Sub
 
 
@@ -40,7 +34,6 @@ Public Class FormularioBajaEspecies
 
         Dim ID_Especie As Integer
 
-
         If ComboBox1.SelectedItem IsNot Nothing Then
             ID_Especie = CInt(ComboBox1.SelectedValue)
 
@@ -49,10 +42,6 @@ Public Class FormularioBajaEspecies
             If respuesta = MsgBoxResult.Yes Then
                 BorrarEspecie(ID_Especie)
             End If
-
-
-
-
 
         Else
             MessageBox.Show("Por favor, selecciona una especie.")
@@ -67,35 +56,18 @@ Public Class FormularioBajaEspecies
 
     Private Sub BorrarEspecie(ID_Especie As Integer)
 
+        Try
+            If daoE.Delete(ID_Especie) Then
+                MsgBox("Eliminado correctamente")
+            Else
+                Throw New Exception("No se pudo eliminar")
+            End If
 
-        Dim connectionString As String = "Data Source=NOTEBOOK_CASA\SQLEXPRESS01;Initial Catalog=Veterinaria;Integrated Security=True"
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
 
-        Dim query As String = "DELETE FROM ESPECIES WHERE ID_Especie = @ID_Especie"
-
-
-        Using connection As New SqlConnection(connectionString)
-            Using command As New SqlCommand(query, connection)
-
-                command.Parameters.AddWithValue("@ID_Especie", ID_Especie)
-                connection.Open()
-
-                Dim result As Integer = Convert.ToInt32(command.ExecuteScalar())
-
-                If result Then
-                    MsgBox("Error en la baja de Especie :(")
-
-                Else
-                    MsgBox("Baja de la especie Exitosa!!!")
-                    Me.Close()
-                End If
-
-
-
-            End Using
-        End Using
-
-
-
+        Me.Close()
 
     End Sub
 

@@ -36,10 +36,10 @@ Partial Class AltaEspecies
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Montserrat ExtraBold", 25.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(641, 19)
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 25.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(570, 15)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(471, 69)
+        Me.Label1.Size = New System.Drawing.Size(347, 48)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Alta de Especies"
         '
@@ -47,80 +47,84 @@ Partial Class AltaEspecies
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!)
-        Me.Label2.Location = New System.Drawing.Point(641, 124)
+        Me.Label2.Location = New System.Drawing.Point(570, 99)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(373, 29)
+        Me.Label2.Size = New System.Drawing.Size(300, 25)
         Me.Label2.TabIndex = 1
         Me.Label2.Text = "Ingresar el nombre de la especie:"
         '
         'TextBox1
         '
         Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!)
-        Me.TextBox1.Location = New System.Drawing.Point(646, 170)
+        Me.TextBox1.Location = New System.Drawing.Point(574, 136)
+        Me.TextBox1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(467, 35)
+        Me.TextBox1.Size = New System.Drawing.Size(416, 30)
         Me.TextBox1.TabIndex = 2
         '
         'Label3
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!)
-        Me.Label3.Location = New System.Drawing.Point(644, 217)
+        Me.Label3.Location = New System.Drawing.Point(572, 174)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(477, 29)
+        Me.Label3.Size = New System.Drawing.Size(386, 25)
         Me.Label3.TabIndex = 3
         Me.Label3.Text = "Ingresar la edad de madurez de la especie:"
         '
         'TextBox2
         '
         Me.TextBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!)
-        Me.TextBox2.Location = New System.Drawing.Point(646, 267)
+        Me.TextBox2.Location = New System.Drawing.Point(574, 214)
+        Me.TextBox2.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(467, 35)
+        Me.TextBox2.Size = New System.Drawing.Size(416, 30)
         Me.TextBox2.TabIndex = 4
         '
         'Label4
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!)
-        Me.Label4.Location = New System.Drawing.Point(644, 321)
+        Me.Label4.Location = New System.Drawing.Point(572, 257)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(462, 29)
+        Me.Label4.Size = New System.Drawing.Size(369, 25)
         Me.Label4.TabIndex = 5
         Me.Label4.Text = "Ingresar el peso promedrio de la especie:"
         '
         'TextBox3
         '
         Me.TextBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!)
-        Me.TextBox3.Location = New System.Drawing.Point(646, 367)
+        Me.TextBox3.Location = New System.Drawing.Point(574, 294)
+        Me.TextBox3.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(467, 35)
+        Me.TextBox3.Size = New System.Drawing.Size(416, 30)
         Me.TextBox3.TabIndex = 6
         '
         'Button1
         '
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button1.Location = New System.Drawing.Point(750, 466)
+        Me.Button1.Location = New System.Drawing.Point(667, 373)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(264, 77)
+        Me.Button1.Size = New System.Drawing.Size(235, 62)
         Me.Button1.TabIndex = 7
         Me.Button1.Text = "Dar de alta"
         Me.Button1.UseVisualStyleBackColor = True
         '
         'Label5
         '
-        Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!)
-        Me.Label5.Location = New System.Drawing.Point(745, 424)
+        Me.Label5.Location = New System.Drawing.Point(578, 339)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(0, 29)
+        Me.Label5.Size = New System.Drawing.Size(412, 20)
         Me.Label5.TabIndex = 8
+        Me.Label5.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
         'AltaEspecies
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1256, 603)
+        Me.ClientSize = New System.Drawing.Size(1116, 482)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.TextBox3)
@@ -130,6 +134,7 @@ Partial Class AltaEspecies
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
+        Me.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.Name = "AltaEspecies"
         Me.Text = "AltaEspecies"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized

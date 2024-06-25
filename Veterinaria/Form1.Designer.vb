@@ -287,6 +287,7 @@ Partial Class Form1
         '
         'TimerCarga
         '
+        Me.TimerCarga.Interval = 50
         '
         'Form1
         '

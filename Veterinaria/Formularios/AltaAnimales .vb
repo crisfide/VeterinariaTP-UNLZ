@@ -1,41 +1,29 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Reflection.Emit
+Imports Servicios.DAO
+Imports Servicios.Modelos
 
 Public Class FormularioAltaAnimales
 
 
-
-    ' Select Case a.Nombre_Animal, a.Peso_Animal, a.Edad_Animal, c.nombreCliente, e.Nombre_Especie 
-    'FROM Animales As a
-    'JOIN Clientes As c On a.ID_Cliente = c.Id_Cliente
-    'JOIN Especies As e On a.ID_Especie = e.ID_Especie
-
-
-
-
-
     Private Sub FormularioAlta_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'LoadClientNames()
-        'LoadEspeciesName()
+        LoadEspeciesName()
+        LoadClientNames()
     End Sub
 
 
-    Private connectionString As String = "Data Source=NOTEBOOK_CASA\SQLEXPRESS01;Initial Catalog=Veterinaria;Integrated Security=True"
-
-
     Private Sub LoadEspeciesName()
-        Using connection As New SqlConnection(connectionString)
-            connection.Open()
-            Dim query As String = "SELECT Id_Especie,Nombre_Especie FROM Especies"
+        Dim daoE As New DAOEspecies
+        Try
+            Dim listado As List(Of Especie) = daoE.GetAll()
 
-            Dim adapter As New SqlDataAdapter(query, connection)
-            Dim table2 As New DataTable()
-            adapter.Fill(table2)
-            ComboBoxEspecie.DataSource = table2
-            ComboBoxEspecie.DisplayMember = "Nombre_Especie"
-            ComboBoxEspecie.ValueMember = "Id_Especie"
+            ComboBoxEspecie.DataSource = listado
+            ComboBoxEspecie.DisplayMember = "nombre"
+            ComboBoxEspecie.ValueMember = "id"
 
-        End Using
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
     End Sub
 
 
@@ -43,18 +31,17 @@ Public Class FormularioAltaAnimales
 
 
     Private Sub LoadClientNames()
-        Using connection As New SqlConnection(connectionString)
-            connection.Open()
-            Dim query As String = "SELECT Id_Cliente,nombreCliente FROM Clientes"
+        Dim daoC As New DAOClientes
+        Try
+            Dim listado As List(Of Cliente) = daoC.GetAll()
 
-            Dim adapter As New SqlDataAdapter(query, connection)
-            Dim table As New DataTable()
-            adapter.Fill(table)
-            ComboBoxClientes.DataSource = table
-            ComboBoxClientes.DisplayMember = "nombreCliente"
-            ComboBoxClientes.ValueMember = "Id_Cliente"
+            ComboBoxClientes.DataSource = listado
+            ComboBoxClientes.DisplayMember = "nombre"
+            ComboBoxClientes.ValueMember = "id"
 
-        End Using
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
     End Sub
 
 
@@ -63,33 +50,23 @@ Public Class FormularioAltaAnimales
 
         Dim Nombre_Animal As String = TextBox1.Text
         Dim PesoStr As String = TextBox2.Text
-        Dim Peso_Animal As Integer
+        Dim Peso_Animal As Decimal
         Dim EdadStr As String = TextBox3.Text
         Dim Edad_Animal As Integer
 
         Dim ID_Cliente As Integer
-        ' Dim IDEspecieStr As String = TextBox5.Text
         Dim ID_Especie As Integer
 
-
-        Dim mensaje
+        Dim mensaje As String
 
         If Nombre_Animal = "" Or EdadStr = "" Or PesoStr = "" Then
 
-            mensaje = "Error, Carga nuevamente"
+            Label5.Text = "Error, Carga nuevamente"
 
         Else
 
             Integer.TryParse(EdadStr, Edad_Animal)
-
-            Integer.TryParse(PesoStr, Peso_Animal)
-
-            'Integer.TryParse(IDClienteStr, ID_Cliente)
-
-            ' Integer.TryParse(IDEspecieStr, ID_Especie)
-
-
-
+            Decimal.TryParse(PesoStr, Peso_Animal)
 
             If ComboBoxClientes.SelectedItem IsNot Nothing Then
                 ID_Cliente = CInt(ComboBoxClientes.SelectedValue)
@@ -108,49 +85,67 @@ Public Class FormularioAltaAnimales
                 MessageBox.Show("Por favor, selecciona una especie.")
             End If
 
+            If Edad_Animal <= 0 And Peso_Animal <= 0 Then
+                MsgBox("Ingrese peso y edad correctamente")
+                Return
+            End If
+
+            Dim daoA As New DAOAnimales
+            Dim animal As New Animal(Nombre_Animal, Edad_Animal, Peso_Animal, ID_Cliente, ID_Especie)
+            Dim result As Boolean
+            Try
+                result = daoA.Insert(animal)
+                If result Then
+                    MsgBox("Alta del Animal Exitosa!!!")
+                    Me.Close()
+                Else
+                    MsgBox("Error en el Alta del Animal :(")
+                End If
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
 
 
 
 
 
 
-            Dim connectionString As String = "Data Source=NOTEBOOK_CASA\SQLEXPRESS01;Initial Catalog=Veterinaria;Integrated Security=True"
+            'Dim connectionString As String = "Data Source=NOTEBOOK_CASA\SQLEXPRESS01;Initial Catalog=Veterinaria;Integrated Security=True"
 
-            Dim query As String = "INSERT INTO Animales (Nombre_Animal, Edad_Animal, Peso_Animal, ID_Cliente, ID_Especie) VALUES (@Nombre_Animal, @Edad_Animal ,@Peso_Animal,@ID_Cliente,@ID_Especie)"
-
-
-            Using connection As New SqlConnection(connectionString)
-                Using command As New SqlCommand(query, connection)
-
-                    command.Parameters.AddWithValue("@Nombre_Animal", Nombre_Animal)
-                    command.Parameters.AddWithValue("@Edad_Animal", Edad_Animal)
-                    command.Parameters.AddWithValue("@Peso_Animal", Peso_Animal)
-                    command.Parameters.AddWithValue("@ID_Cliente", ID_Cliente)
-                    command.Parameters.AddWithValue("@ID_Especie", ID_Especie)
+            'Dim query As String = "INSERT INTO Animales (Nombre_Animal, Edad_Animal, Peso_Animal, ID_Cliente, ID_Especie) VALUES (@Nombre_Animal, @Edad_Animal ,@Peso_Animal,@ID_Cliente,@ID_Especie)"
 
 
 
-                    connection.Open()
+            'Using connection As New SqlConnection(connectionString)
+            '    Using command As New SqlCommand(query, connection)
 
-                    Dim result As Integer = Convert.ToInt32(command.ExecuteScalar())
-
-                    If result Then
-                        MsgBox("Error en el Alta del Animal :(")
-
-                    Else
-                        MsgBox("Alta del Animal Exitosa!!!")
-                        Me.Close()
-                    End If
+            '        command.Parameters.AddWithValue("@Nombre_Animal", Nombre_Animal)
+            '        command.Parameters.AddWithValue("@Edad_Animal", Edad_Animal)
+            '        command.Parameters.AddWithValue("@Peso_Animal", Peso_Animal)
+            '        command.Parameters.AddWithValue("@ID_Cliente", ID_Cliente)
+            '        command.Parameters.AddWithValue("@ID_Especie", ID_Especie)
 
 
-                End Using
-            End Using
+
+            '        connection.Open()
+
+            '        Dim result As Integer = Convert.ToInt32(command.ExecuteScalar())
+
+            '        If result Then
+            '            MsgBox("Error en el Alta del Animal :(")
+
+            '        Else
+            '            MsgBox("Alta del Animal Exitosa!!!")
+            '            Me.Close()
+            '        End If
+
+
+            '    End Using
+            'End Using
 
         End If
 
 
-        Label5.Text = mensaje
-        Label5.Visible = True
 
 
 

@@ -1,4 +1,6 @@
 ﻿Imports System.Data.SqlClient
+Imports Servicios.DAO
+Imports Servicios.Modelos
 
 Public Class AltaClientes
 
@@ -16,43 +18,61 @@ Public Class AltaClientes
 
         If nombreCliente = "" Or dniClienteStr = "" Then
 
-            mensaje = "Error, Carga el nombre y dni del cliente"
+            Me.Label5.Text = "Error, Carga el nombre y dni del cliente"
 
         Else
 
-
             Integer.TryParse(dniClienteStr, dniCliente)
 
+            If dniCliente <= 0 Then
+                MsgBox("Ingrese DNI correctamente")
+                Return
+            End If
 
 
-            Dim connectionString As String = "Data Source=NOTEBOOK_CASA\SQLEXPRESS01;Initial Catalog=Veterinaria;Integrated Security=True"
+            Dim daoC As New DAOClientes
+            Dim cliente As New Cliente(nombreCliente, dniCliente)
+            Dim result As Boolean
+            Try
+                result = daoC.Insert(cliente)
+                If result Then
+                    MsgBox("Alta Exitosa!!!")
+                    Me.Close()
+                Else
+                    MsgBox("Error en el Alta :(")
+                End If
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
 
-            Dim query As String = "INSERT INTO Clientes (nombreCliente, dniCliente) VALUES (@nombreCliente, @dniCliente)"
+            'Dim connectionString As String = "Data Source=NOTEBOOK_CASA\SQLEXPRESS01;Initial Catalog=Veterinaria;Integrated Security=True"
 
-
-            Using connection As New SqlConnection(connectionString)
-                Using command As New SqlCommand(query, connection)
-
-                    command.Parameters.AddWithValue("@nombreCliente", nombreCliente)
-                    command.Parameters.AddWithValue("@dniCliente", dniCliente)
-
-                    connection.Open()
-
-                    Dim result As Integer = Convert.ToInt32(command.ExecuteScalar())
-
-                    If result Then
-                        MsgBox("Error en el Alta del Cliente :(")
-
-                    Else
-                        MsgBox("Alta del Cliente Exitosa!!!")
-                        Me.Close()
-                    End If
+            'Dim query As String = "INSERT INTO Clientes (nombreCliente, dniCliente) VALUES (@nombreCliente, @dniCliente)"
 
 
+            'Using connection As New SqlConnection(connectionString)
+            '    Using command As New SqlCommand(query, connection)
+
+            '        command.Parameters.AddWithValue("@nombreCliente", nombreCliente)
+            '        command.Parameters.AddWithValue("@dniCliente", dniCliente)
+
+            '        connection.Open()
+
+            '        Dim result As Integer = Convert.ToInt32(command.ExecuteScalar())
+
+            '        If result Then
+            '            MsgBox("Error en el Alta del Cliente :(")
+
+            '        Else
+            '            MsgBox("Alta del Cliente Exitosa!!!")
+            '            Me.Close()
+            '        End If
 
 
-                End Using
-            End Using
+
+
+            '    End Using
+            'End Using
 
 
 
@@ -61,9 +81,13 @@ Public Class AltaClientes
         End If
 
 
-        Label4.Text = mensaje
-        Label4.Visible = True
+        Label5.Text = mensaje
+        Label5.Visible = True
 
+
+    End Sub
+
+    Private Sub AltaClientes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
     End Sub
 End Class
