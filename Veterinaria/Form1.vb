@@ -108,15 +108,25 @@ Public Class Form1
         cargarForm(New FormularioListadoUsuarios())
     End Sub
 
+    Private Sub VerListadoAnimalesConDueñoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VerListadoAnimalesConDueñoToolStripMenuItem.Click
+        cargarForm(New FormularioListadoDueños())
+    End Sub
 
 
 
+    'REPORTES
+    Private Sub MostrarElPesoMáximoMínimoYPromedioAgrupadoPorEspecieToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MostrarElPesoMáximoMínimoYPromedioAgrupadoPorEspecieToolStripMenuItem.Click
+        cargarForm(New ReportePesoMáximoMínimoYPromedio())
+    End Sub
+
+    Private Sub MostrarLaCantidadDeAnimalesConLosQueCuentaCadaDueñoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MostrarLaCantidadDeAnimalesConLosQueCuentaCadaDueñoToolStripMenuItem.Click
+        cargarForm(New ReporteCantidadPorDuenio())
+    End Sub
 
 
     'salir
     Private Sub SalirToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SalirToolStripMenuItem.Click
         Me.Close()
     End Sub
-
 
 End Class

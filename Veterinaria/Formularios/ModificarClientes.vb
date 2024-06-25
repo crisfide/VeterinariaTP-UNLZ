@@ -1,70 +1,67 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports Servicios
+Imports Servicios.DAO
+Imports Servicios.Modelos
 
 Public Class ModificarClientes
 
     Private valor As Integer
 
     Private Sub FormularioAlta_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         LoadClientesName()
     End Sub
 
-    Private connectionString As String = "Data Source=NOTEBOOK_CASA\SQLEXPRESS01;Initial Catalog=Veterinaria;Integrated Security=True"
 
-
-
+    Dim daoC As New DAOClientes
     Private Sub LoadClientesName()
-        Using connection As New SqlConnection(connectionString)
-            connection.Open()
-            Dim query As String = "SELECT Id_Cliente,nombreCliente FROM Clientes"
+        Try
+            Dim listado As List(Of Cliente) = daoC.GetAll()
 
-            Dim adapter As New SqlDataAdapter(query, connection)
-            Dim table2 As New DataTable()
-            adapter.Fill(table2)
+            ComboBox1.DataSource = listado
+            ComboBox1.DisplayMember = "nombre"
+            ComboBox1.ValueMember = "id"
+            ComboBox1.Text = "---" 'para que no se muestre un valor antes de seleccionar
 
-            ComboBox1.DataSource = table2
-            ComboBox1.DisplayMember = "nombreCliente"
-            ComboBox1.ValueMember = "Id_Cliente"
-
-        End Using
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
     End Sub
 
 
 
     Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
 
+
+    End Sub
+
+    Private Sub ComboBox1_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles ComboBox1.SelectionChangeCommitted
         If ComboBox1.SelectedValue IsNot Nothing Then
             'Dim valor As Integer  -> la declaro global
             Dim valorS As String = ComboBox1.SelectedValue.ToString()
 
             Integer.TryParse(valorS, valor)
-            'MsgBox("ComboBox1.SelectedValue.ToString():  " & valor)
+            'MsgBox($"{ComboBox1.SelectedValue.ToString()}:  " & valor)
 
-            Dim ID_Cliente As Integer = valor
-            MostrarDetallesCliente(ID_Cliente)
+            Dim id_cliente As Integer = valor
+            MostrarDetallesCliente(id_cliente)
         End If
-
-
-
     End Sub
 
     Private Sub MostrarDetallesCliente(ID_Cliente As Integer)
+        Dim cliente As Cliente
+        Try
+            cliente = daoC.GetByID(ID_Cliente)
 
-        Using connection As New SqlConnection(connectionString)
-            connection.Open()
-            Dim query As String = "SELECT nombreCliente, dniCliente FROM Clientes WHERE ID_Cliente = @ID_Cliente"
-            Dim command As New SqlCommand(query, connection)
-            command.Parameters.AddWithValue("@ID_Cliente", ID_Cliente)
+            With cliente
+                'todo lo que empieza con . se refiere a la variable cliente
+                TextBox1.Text = .nombre
+                TextBox2.Text = .DNI.ToString()
+            End With
 
-            Using reader As SqlDataReader = command.ExecuteReader()
-                If reader.Read() Then
-                    TextBox1.Text = reader("nombreCliente").ToString()
-                    TextBox2.Text = reader("dniCliente").ToString()
-
-                End If
-            End Using
-        End Using
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -80,39 +77,22 @@ Public Class ModificarClientes
             Return ' Salir del evento si la conversión falla
         End If
 
-        ' Validar Peso_Promedio
-
-
-
-
         dniCliente = CInt(TextBox2.Text)
 
-
-
-
         ActualizarCliente(ID_Cliente, nombreCliente, dniCliente)
-
-
 
     End Sub
 
     Private Sub ActualizarCliente(ID_Cliente As Integer, nombreCliente As String, dniCliente As Integer)
-        Using connection As New SqlConnection(connectionString)
-            connection.Open()
-            Dim query As String = "UPDATE Clientes SET nombreCliente = @nombreCliente, dniCliente = @dniCliente WHERE ID_Cliente = @ID_Cliente"
-            Dim command As New SqlCommand(query, connection)
-            command.Parameters.AddWithValue("@ID_Cliente", ID_Cliente)
-            command.Parameters.AddWithValue("@nombreCliente", nombreCliente)
-            command.Parameters.AddWithValue("@dniCliente", dniCliente)
-
-
-            Try
-                command.ExecuteNonQuery()
+        Try
+            If daoC.Update(ID_Cliente, nombreCliente, dniCliente) Then
                 MessageBox.Show("Cliente actualizado correctamente.")
-            Catch ex As Exception
-                MessageBox.Show("Error: " & ex.Message)
-            End Try
-        End Using
+            Else
+                Throw New Exception("No se pudo actualizar")
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error: " & ex.Message)
+        End Try
     End Sub
 
 

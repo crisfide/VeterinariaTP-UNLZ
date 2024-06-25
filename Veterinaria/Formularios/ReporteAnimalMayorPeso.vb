@@ -1,5 +1,6 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Reflection.Emit
+Imports Servicios.DAO
 
 Public Class ReporteAnimalMayorPeso
 
@@ -11,16 +12,13 @@ Public Class ReporteAnimalMayorPeso
     End Sub
 
     Private Sub CargarAnimalesConMayorPeso()
-        Using connection As New SqlConnection(connectionString)
-            connection.Open()
-            Dim query As String = "SELECT Nombre_Animal, Edad_Animal, id_Especie, Peso_Animal FROM Animales ORDER BY Peso_Animal DESC"
-            Dim adapter As New SqlDataAdapter(query, connection)
-            Dim table As New DataTable()
-            adapter.Fill(table)
-            DataGridView1.DataSource = table
-        End Using
+        Dim dao As New DAOAnimales
 
-
+        Try
+            DataGridView1.DataSource = dao.ordenarPorPeso(False)
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
 
     End Sub
 End Class

@@ -38,61 +38,66 @@ Partial Class ModificarClientes
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Montserrat ExtraBold", 25.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(228, 9)
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 25.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(203, 7)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(486, 69)
+        Me.Label1.Size = New System.Drawing.Size(350, 48)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Modificar Cliente"
         '
         'ComboBox1
         '
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(474, 132)
+        Me.ComboBox1.Location = New System.Drawing.Point(421, 106)
+        Me.ComboBox1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(452, 28)
+        Me.ComboBox1.Size = New System.Drawing.Size(402, 24)
         Me.ComboBox1.TabIndex = 2
+        Me.ComboBox1.Text = "---"
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Montserrat", 8.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(-6, 202)
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(-5, 162)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(1312, 22)
+        Me.Label3.Size = New System.Drawing.Size(1310, 17)
         Me.Label3.TabIndex = 3
         Me.Label3.Text = resources.GetString("Label3.Text")
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Bebas", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(141, 235)
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(125, 188)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(207, 36)
+        Me.Label5.Size = New System.Drawing.Size(206, 29)
         Me.Label5.TabIndex = 5
         Me.Label5.Text = "Datos del Cliente"
         '
         'TextBox2
         '
-        Me.TextBox2.Location = New System.Drawing.Point(399, 386)
+        Me.TextBox2.Location = New System.Drawing.Point(355, 309)
+        Me.TextBox2.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(358, 26)
+        Me.TextBox2.Size = New System.Drawing.Size(319, 22)
         Me.TextBox2.TabIndex = 20
         '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(399, 343)
+        Me.TextBox1.Location = New System.Drawing.Point(355, 274)
+        Me.TextBox1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(358, 26)
+        Me.TextBox1.Size = New System.Drawing.Size(319, 22)
         Me.TextBox1.TabIndex = 19
         '
         'Button1
         '
-        Me.Button1.Font = New System.Drawing.Font("Montserrat", 13.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button1.Location = New System.Drawing.Point(824, 343)
+        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.Location = New System.Drawing.Point(732, 274)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(165, 70)
+        Me.Button1.Size = New System.Drawing.Size(147, 56)
         Me.Button1.TabIndex = 18
         Me.Button1.Text = "Modificar"
         Me.Button1.UseVisualStyleBackColor = True
@@ -101,9 +106,9 @@ Partial Class ModificarClientes
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!)
-        Me.Label6.Location = New System.Drawing.Point(172, 386)
+        Me.Label6.Location = New System.Drawing.Point(153, 309)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(192, 30)
+        Me.Label6.Size = New System.Drawing.Size(165, 26)
         Me.Label6.TabIndex = 16
         Me.Label6.Text = "DNI del Cliente:"
         '
@@ -111,9 +116,9 @@ Partial Class ModificarClientes
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!)
-        Me.Label4.Location = New System.Drawing.Point(124, 339)
+        Me.Label4.Location = New System.Drawing.Point(110, 271)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(240, 30)
+        Me.Label4.Size = New System.Drawing.Size(205, 26)
         Me.Label4.TabIndex = 15
         Me.Label4.Text = "Nombre del Cliente:"
         '
@@ -121,17 +126,17 @@ Partial Class ModificarClientes
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!)
-        Me.Label2.Location = New System.Drawing.Point(68, 126)
+        Me.Label2.Location = New System.Drawing.Point(60, 101)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(386, 30)
+        Me.Label2.Size = New System.Drawing.Size(330, 26)
         Me.Label2.TabIndex = 21
         Me.Label2.Text = "Seleccione el cliente a modificar:"
         '
         'ModificarClientes
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1022, 629)
+        Me.ClientSize = New System.Drawing.Size(908, 503)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.TextBox1)
@@ -142,6 +147,7 @@ Partial Class ModificarClientes
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.Label1)
+        Me.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.Name = "ModificarClientes"
         Me.Text = "ModificarClientes"
         Me.ResumeLayout(False)

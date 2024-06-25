@@ -208,6 +208,12 @@
     <Compile Include="Formularios\ReporteAnimalMayorPeso.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Formularios\ReporteCantidadPorDuenio.Designer.vb">
+      <DependentUpon>ReporteCantidadPorDuenio.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\ReporteCantidadPorDuenio.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Formularios\ReportePesoMáximoMínimoYPromedio.Designer.vb">
       <DependentUpon>ReportePesoMáximoMínimoYPromedio.vb</DependentUpon>
     </Compile>
@@ -296,6 +302,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\ReporteAnimalMayorPeso.resx">
       <DependentUpon>ReporteAnimalMayorPeso.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\ReporteCantidadPorDuenio.resx">
+      <DependentUpon>ReporteCantidadPorDuenio.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\ReportePesoMáximoMínimoYPromedio.resx">
       <DependentUpon>ReportePesoMáximoMínimoYPromedio.vb</DependentUpon>

@@ -45,6 +45,7 @@ Partial Class Form1
         Me.lVerListadoClientesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.lVerListadoEspeciesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.lVerListadoUsuariosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.VerListadoAnimalesConDueñoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SalirToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.txtUsuario = New System.Windows.Forms.TextBox()
@@ -55,6 +56,9 @@ Partial Class Form1
         Me.btnLogin = New System.Windows.Forms.Button()
         Me.txtContr = New System.Windows.Forms.TextBox()
         Me.TimerCarga = New System.Windows.Forms.Timer(Me.components)
+        Me.ReportesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MostrarElPesoMáximoMínimoYPromedioAgrupadoPorEspecieToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MostrarLaCantidadDeAnimalesConLosQueCuentaCadaDueñoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
@@ -62,7 +66,7 @@ Partial Class Form1
         'MenuStrip1
         '
         Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(24, 24)
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MaestrosToolStripMenuItem, Me.InformesToolStripMenuItem, Me.SalirToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MaestrosToolStripMenuItem, Me.InformesToolStripMenuItem, Me.ReportesToolStripMenuItem, Me.SalirToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Padding = New System.Windows.Forms.Padding(5, 2, 0, 2)
@@ -173,7 +177,7 @@ Partial Class Form1
         '
         'InformesToolStripMenuItem
         '
-        Me.InformesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.lVerListadoAnimalesToolStripMenuItem, Me.lVerListadoClientesToolStripMenuItem, Me.lVerListadoEspeciesToolStripMenuItem, Me.lVerListadoUsuariosToolStripMenuItem})
+        Me.InformesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.lVerListadoAnimalesToolStripMenuItem, Me.lVerListadoClientesToolStripMenuItem, Me.lVerListadoEspeciesToolStripMenuItem, Me.lVerListadoUsuariosToolStripMenuItem, Me.VerListadoAnimalesConDueñoToolStripMenuItem})
         Me.InformesToolStripMenuItem.Name = "InformesToolStripMenuItem"
         Me.InformesToolStripMenuItem.Size = New System.Drawing.Size(85, 24)
         Me.InformesToolStripMenuItem.Text = "Informes "
@@ -181,26 +185,32 @@ Partial Class Form1
         'lVerListadoAnimalesToolStripMenuItem
         '
         Me.lVerListadoAnimalesToolStripMenuItem.Name = "lVerListadoAnimalesToolStripMenuItem"
-        Me.lVerListadoAnimalesToolStripMenuItem.Size = New System.Drawing.Size(225, 26)
+        Me.lVerListadoAnimalesToolStripMenuItem.Size = New System.Drawing.Size(299, 26)
         Me.lVerListadoAnimalesToolStripMenuItem.Text = "Ver listado animales"
         '
         'lVerListadoClientesToolStripMenuItem
         '
         Me.lVerListadoClientesToolStripMenuItem.Name = "lVerListadoClientesToolStripMenuItem"
-        Me.lVerListadoClientesToolStripMenuItem.Size = New System.Drawing.Size(225, 26)
+        Me.lVerListadoClientesToolStripMenuItem.Size = New System.Drawing.Size(299, 26)
         Me.lVerListadoClientesToolStripMenuItem.Text = "Ver listado clientes"
         '
         'lVerListadoEspeciesToolStripMenuItem
         '
         Me.lVerListadoEspeciesToolStripMenuItem.Name = "lVerListadoEspeciesToolStripMenuItem"
-        Me.lVerListadoEspeciesToolStripMenuItem.Size = New System.Drawing.Size(225, 26)
+        Me.lVerListadoEspeciesToolStripMenuItem.Size = New System.Drawing.Size(299, 26)
         Me.lVerListadoEspeciesToolStripMenuItem.Text = "Ver listado especies"
         '
         'lVerListadoUsuariosToolStripMenuItem
         '
         Me.lVerListadoUsuariosToolStripMenuItem.Name = "lVerListadoUsuariosToolStripMenuItem"
-        Me.lVerListadoUsuariosToolStripMenuItem.Size = New System.Drawing.Size(225, 26)
+        Me.lVerListadoUsuariosToolStripMenuItem.Size = New System.Drawing.Size(299, 26)
         Me.lVerListadoUsuariosToolStripMenuItem.Text = "Ver listado usuarios"
+        '
+        'VerListadoAnimalesConDueñoToolStripMenuItem
+        '
+        Me.VerListadoAnimalesConDueñoToolStripMenuItem.Name = "VerListadoAnimalesConDueñoToolStripMenuItem"
+        Me.VerListadoAnimalesConDueñoToolStripMenuItem.Size = New System.Drawing.Size(299, 26)
+        Me.VerListadoAnimalesConDueñoToolStripMenuItem.Text = "Ver listado animales con dueño"
         '
         'SalirToolStripMenuItem
         '
@@ -289,6 +299,25 @@ Partial Class Form1
         '
         Me.TimerCarga.Interval = 50
         '
+        'ReportesToolStripMenuItem
+        '
+        Me.ReportesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MostrarElPesoMáximoMínimoYPromedioAgrupadoPorEspecieToolStripMenuItem, Me.MostrarLaCantidadDeAnimalesConLosQueCuentaCadaDueñoToolStripMenuItem})
+        Me.ReportesToolStripMenuItem.Name = "ReportesToolStripMenuItem"
+        Me.ReportesToolStripMenuItem.Size = New System.Drawing.Size(82, 24)
+        Me.ReportesToolStripMenuItem.Text = "Reportes"
+        '
+        'MostrarElPesoMáximoMínimoYPromedioAgrupadoPorEspecieToolStripMenuItem
+        '
+        Me.MostrarElPesoMáximoMínimoYPromedioAgrupadoPorEspecieToolStripMenuItem.Name = "MostrarElPesoMáximoMínimoYPromedioAgrupadoPorEspecieToolStripMenuItem"
+        Me.MostrarElPesoMáximoMínimoYPromedioAgrupadoPorEspecieToolStripMenuItem.Size = New System.Drawing.Size(542, 26)
+        Me.MostrarElPesoMáximoMínimoYPromedioAgrupadoPorEspecieToolStripMenuItem.Text = "Mostrar el peso máximo, mínimo y promedio agrupado por especie"
+        '
+        'MostrarLaCantidadDeAnimalesConLosQueCuentaCadaDueñoToolStripMenuItem
+        '
+        Me.MostrarLaCantidadDeAnimalesConLosQueCuentaCadaDueñoToolStripMenuItem.Name = "MostrarLaCantidadDeAnimalesConLosQueCuentaCadaDueñoToolStripMenuItem"
+        Me.MostrarLaCantidadDeAnimalesConLosQueCuentaCadaDueñoToolStripMenuItem.Size = New System.Drawing.Size(542, 26)
+        Me.MostrarLaCantidadDeAnimalesConLosQueCuentaCadaDueñoToolStripMenuItem.Text = "Mostrar la cantidad de animales con los que cuenta cada dueño"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -342,4 +371,8 @@ Partial Class Form1
     Friend WithEvents lVerListadoClientesToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents lVerListadoEspeciesToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents lVerListadoUsuariosToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents VerListadoAnimalesConDueñoToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ReportesToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MostrarElPesoMáximoMínimoYPromedioAgrupadoPorEspecieToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MostrarLaCantidadDeAnimalesConLosQueCuentaCadaDueñoToolStripMenuItem As ToolStripMenuItem
 End Class

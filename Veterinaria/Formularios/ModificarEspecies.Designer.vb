@@ -40,10 +40,10 @@ Partial Class ModificarEspecies
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Montserrat ExtraBold", 25.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(234, 9)
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 25.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(208, 7)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(503, 69)
+        Me.Label1.Size = New System.Drawing.Size(368, 48)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Modificar Especie"
         '
@@ -51,37 +51,39 @@ Partial Class ModificarEspecies
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!)
-        Me.Label2.Location = New System.Drawing.Point(60, 113)
+        Me.Label2.Location = New System.Drawing.Point(53, 90)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(400, 30)
+        Me.Label2.Size = New System.Drawing.Size(342, 26)
         Me.Label2.TabIndex = 1
         Me.Label2.Text = "Seleccione la especie a modificar:"
         '
         'ComboBox1
         '
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(466, 115)
+        Me.ComboBox1.Location = New System.Drawing.Point(414, 92)
+        Me.ComboBox1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(428, 28)
+        Me.ComboBox1.Size = New System.Drawing.Size(381, 24)
         Me.ComboBox1.TabIndex = 2
+        Me.ComboBox1.Text = "---"
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Montserrat", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(-7, 186)
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(-6, 149)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(1222, 22)
+        Me.Label3.Size = New System.Drawing.Size(1220, 17)
         Me.Label3.TabIndex = 3
         Me.Label3.Text = resources.GetString("Label3.Text")
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Bebas", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(59, 220)
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.Location = New System.Drawing.Point(52, 176)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(226, 36)
+        Me.Label4.Size = New System.Drawing.Size(239, 29)
         Me.Label4.TabIndex = 4
         Me.Label4.Text = "Datos de la Especie"
         '
@@ -89,9 +91,9 @@ Partial Class ModificarEspecies
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!)
-        Me.Label5.Location = New System.Drawing.Point(121, 303)
+        Me.Label5.Location = New System.Drawing.Point(108, 242)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(269, 30)
+        Me.Label5.Size = New System.Drawing.Size(230, 26)
         Me.Label5.TabIndex = 5
         Me.Label5.Text = "Nombre de la especie:"
         '
@@ -99,9 +101,9 @@ Partial Class ModificarEspecies
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!)
-        Me.Label6.Location = New System.Drawing.Point(12, 350)
+        Me.Label6.Location = New System.Drawing.Point(11, 280)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(378, 30)
+        Me.Label6.Size = New System.Drawing.Size(324, 26)
         Me.Label6.TabIndex = 6
         Me.Label6.Text = "Edad de madurez de la especie:"
         '
@@ -109,48 +111,52 @@ Partial Class ModificarEspecies
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!)
-        Me.Label7.Location = New System.Drawing.Point(41, 395)
+        Me.Label7.Location = New System.Drawing.Point(36, 316)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(349, 30)
+        Me.Label7.Size = New System.Drawing.Size(299, 26)
         Me.Label7.TabIndex = 7
         Me.Label7.Text = "Peso promedio de la especie:"
         '
         'Button1
         '
-        Me.Button1.Font = New System.Drawing.Font("Montserrat", 13.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button1.Location = New System.Drawing.Point(825, 323)
+        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.Location = New System.Drawing.Point(733, 258)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(165, 70)
+        Me.Button1.Size = New System.Drawing.Size(147, 56)
         Me.Button1.TabIndex = 11
         Me.Button1.Text = "Modificar"
         Me.Button1.UseVisualStyleBackColor = True
         '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(396, 307)
+        Me.TextBox1.Location = New System.Drawing.Point(352, 246)
+        Me.TextBox1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(358, 26)
+        Me.TextBox1.Size = New System.Drawing.Size(319, 22)
         Me.TextBox1.TabIndex = 12
         '
         'TextBox2
         '
-        Me.TextBox2.Location = New System.Drawing.Point(396, 350)
+        Me.TextBox2.Location = New System.Drawing.Point(352, 280)
+        Me.TextBox2.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(358, 26)
+        Me.TextBox2.Size = New System.Drawing.Size(319, 22)
         Me.TextBox2.TabIndex = 13
         '
         'TextBox3
         '
-        Me.TextBox3.Location = New System.Drawing.Point(396, 401)
+        Me.TextBox3.Location = New System.Drawing.Point(352, 321)
+        Me.TextBox3.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(358, 26)
+        Me.TextBox3.Size = New System.Drawing.Size(319, 22)
         Me.TextBox3.TabIndex = 14
         '
         'ModificarEspecies
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1018, 513)
+        Me.ClientSize = New System.Drawing.Size(905, 410)
         Me.Controls.Add(Me.TextBox3)
         Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.TextBox1)
@@ -163,6 +169,7 @@ Partial Class ModificarEspecies
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
+        Me.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.Name = "ModificarEspecies"
         Me.Text = "ModificarEspecies"
         Me.ResumeLayout(False)

@@ -1,4 +1,6 @@
 ﻿Imports System.Data.SqlClient
+Imports Servicios.DAO
+
 Public Class ReportePromedioEdadAnimales
 
     Private connectionString As String = "Data Source=NOTEBOOK_CASA\SQLEXPRESS01;Initial Catalog=Veterinaria;Integrated Security=True"
@@ -9,14 +11,16 @@ Public Class ReportePromedioEdadAnimales
     End Sub
 
     Private Sub CargarPromedioEdadPorEspecie()
-        Using connection As New SqlConnection(connectionString)
-            connection.Open()
-            Dim query As String = "SELECT ID_Especie, AVG(Edad_Animal) AS PromedioEdad FROM [Veterinaria].[dbo].[Animales] GROUP BY ID_Especie"
-            Dim adapter As New SqlDataAdapter(query, connection)
-            Dim table As New DataTable()
-            adapter.Fill(table)
-            DataGridView1.DataSource = table
-        End Using
+        Dim dao As New DAOAnimales
+
+        Try
+            DataGridView1.DataSource = dao.GetAll("
+                    SELECT ESPECIE_ID, AVG(EDAD) AS PromedioEdad 
+                    FROM Animales 
+                    GROUP BY ESPECIE_ID")
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
 
 
 

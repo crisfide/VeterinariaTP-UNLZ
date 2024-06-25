@@ -1,36 +1,36 @@
 ﻿Imports System.Data.SqlClient
+Imports Servicios
+Imports Servicios.DAO
+Imports Servicios.Modelos
 
 Public Class ModificarEspecies
 
     Private valor As Integer
 
     Private Sub FormularioAlta_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         LoadEspeciesName()
     End Sub
 
-    Private connectionString As String = "Data Source=NOTEBOOK_CASA\SQLEXPRESS01;Initial Catalog=Veterinaria;Integrated Security=True"
-
-
-
+    Private daoE As New DAOEspecies
     Private Sub LoadEspeciesName()
-        Using connection As New SqlConnection(connectionString)
-            connection.Open()
-            Dim query As String = "SELECT Id_Especie,Nombre_Especie FROM Especies"
+        Try
+            Dim listado As List(Of Especie) = daoE.GetAll()
 
-            Dim adapter As New SqlDataAdapter(query, connection)
-            Dim table2 As New DataTable()
-            adapter.Fill(table2)
+            ComboBox1.DataSource = listado
+            ComboBox1.DisplayMember = "nombre"
+            ComboBox1.ValueMember = "id"
+            ComboBox1.Text = "---" 'para que no se muestre un valor antes de seleccionar
 
-            ComboBox1.DataSource = table2
-            ComboBox1.DisplayMember = "Nombre_Especie"
-            ComboBox1.ValueMember = "Id_Especie"
-
-        End Using
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
     End Sub
 
     Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
 
+    End Sub
+
+    Private Sub ComboBox1_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles ComboBox1.SelectionChangeCommitted
         If ComboBox1.SelectedValue IsNot Nothing Then
             'Dim valor As Integer  -> la declaro global
             Dim valorS As String = ComboBox1.SelectedValue.ToString()
@@ -41,27 +41,24 @@ Public Class ModificarEspecies
             Dim ID_Especie As Integer = valor
             MostrarDetallesEspecie(ID_Especie)
         End If
-
     End Sub
 
 
-
     Private Sub MostrarDetallesEspecie(ID_Especie As Integer)
+        Dim especie As Especie
+        Try
+            especie = daoE.GetByID(ID_Especie)
 
-        Using connection As New SqlConnection(connectionString)
-            connection.Open()
-            Dim query As String = "SELECT Nombre_Especie, Edad_Madurez, Peso_Promedio FROM Especies WHERE Id_Especie = @Id_Especie"
-            Dim command As New SqlCommand(query, connection)
-            command.Parameters.AddWithValue("@Id_Especie", ID_Especie)
+            With especie
+                'todo lo que empieza con . se refiere a la variable cliente
+                TextBox1.Text = .nombre
+                TextBox2.Text = .EdadMadurez.ToString()
+                TextBox3.Text = .PesoPromedio.ToString()
+            End With
 
-            Using reader As SqlDataReader = command.ExecuteReader()
-                If reader.Read() Then
-                    TextBox1.Text = reader("Nombre_Especie").ToString()
-                    TextBox2.Text = reader("Edad_Madurez").ToString()
-                    TextBox3.Text = reader("Peso_Promedio").ToString()
-                End If
-            End Using
-        End Using
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
 
     End Sub
 
@@ -85,37 +82,22 @@ Public Class ModificarEspecies
             Return ' Salir del evento si la conversión falla
         End If
 
-
-
         Edad_Madurez = CInt(TextBox2.Text)
         Peso_Promedio = CDec(TextBox3.Text)
-
-
-
-
-
-
 
         ActualizarEspecie(ID_Especie, Nombre_Especie, Edad_Madurez, Peso_Promedio)
 
     End Sub
     Private Sub ActualizarEspecie(ID_Especie As Integer, Nombre_Especie As String, Edad_Madurez As Integer, Peso_Promedio As Decimal)
-        Using connection As New SqlConnection(connectionString)
-            connection.Open()
-            Dim query As String = "UPDATE Especies SET Nombre_Especie = @Nombre_Especie, Edad_Madurez = @Edad_Madurez, Peso_Promedio = @Peso_Promedio WHERE ID_Especie = @ID_Especie"
-            Dim command As New SqlCommand(query, connection)
-            command.Parameters.AddWithValue("@ID_Especie", ID_Especie)
-            command.Parameters.AddWithValue("@Nombre_Especie", Nombre_Especie)
-            command.Parameters.AddWithValue("@Edad_Madurez", Edad_Madurez)
-            command.Parameters.AddWithValue("@Peso_Promedio", Peso_Promedio)
-
-            Try
-                command.ExecuteNonQuery()
+        Try
+            If daoE.Update(ID_Especie, Nombre_Especie, Edad_Madurez, Peso_Promedio) Then
                 MessageBox.Show("Especie actualizada correctamente.")
-            Catch ex As Exception
-                MessageBox.Show("Error: " & ex.Message)
-            End Try
-        End Using
+            Else
+                Throw New Exception("No se pudo actualizar")
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error: " & ex.Message)
+        End Try
     End Sub
 
 End Class

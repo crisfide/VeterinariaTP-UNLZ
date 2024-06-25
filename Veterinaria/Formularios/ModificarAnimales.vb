@@ -1,67 +1,124 @@
 ﻿Imports System.Data.SqlClient
+Imports System.Runtime.CompilerServices
+Imports Servicios.DAO
+Imports Servicios.Modelos
+
 Public Class ModificarAnimales
 
     Private valor As Integer
 
     Private Sub FormularioAlta_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         LoadAnimalesName()
     End Sub
 
-    Private connectionString As String = "Data Source=NOTEBOOK_CASA\SQLEXPRESS01;Initial Catalog=Veterinaria;Integrated Security=True"
+    'Private connectionString As String = "Data Source=NOTEBOOK_CASA\SQLEXPRESS01;Initial Catalog=Veterinaria;Integrated Security=True"
 
 
-
+    Private daoA As New DAOAnimales
     Private Sub LoadAnimalesName()
-        Using connection As New SqlConnection(connectionString)
-            connection.Open()
-            Dim query As String = "SELECT ID_Animal,Nombre_Animal FROM Animales"
+        Try
+            Dim listado As List(Of Animal) = daoA.GetAll()
 
-            Dim adapter As New SqlDataAdapter(query, connection)
-            Dim table2 As New DataTable()
-            adapter.Fill(table2)
+            ComboBox1.DataSource = listado
+            ComboBox1.DisplayMember = "nombre"
+            ComboBox1.ValueMember = "id"
+            ComboBox1.Text = "---" 'para que no se muestre un valor antes de seleccionar
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+        'Using connection As New SqlConnection(connectionString)
+        '    connection.Open()
+        '    Dim query As String = "SELECT ID_Animal,Nombre_Animal FROM Animales"
 
-            ComboBox1.DataSource = table2
-            ComboBox1.DisplayMember = "Nombre_Animal"
-            ComboBox1.ValueMember = "ID_Animal"
+        '    Dim adapter As New SqlDataAdapter(query, connection)
+        '    Dim table2 As New DataTable()
+        '    adapter.Fill(table2)
 
-        End Using
+        '    ComboBox1.DataSource = table2
+        '    ComboBox1.DisplayMember = "Nombre_Animal"
+        '    ComboBox1.ValueMember = "ID_Animal"
+
+        'End Using
     End Sub
 
     Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+        'Return
+        'If ComboBox1.SelectedValue IsNot Nothing Then
+        '    'Dim valor As Integer  -> la declaro global
+        '    Dim valorS As String = ComboBox1.SelectedValue.ToString()
 
+        '    Integer.TryParse(valorS, valor)
+        '    'MsgBox("ComboBox1.SelectedValue.ToString():  " & valor)
+
+        '    Dim ID_Animal As Integer = valor
+        '    MostrarDetallesAnimal(ID_Animal)
+        'End If
+
+    End Sub
+
+    Private Sub ComboBox1_SelectedValueChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedValueChanged
+        'Return
+        'If ComboBox1.SelectedValue IsNot Nothing Then
+        '    'Dim valor As Integer  -> la declaro global
+        '    Dim valorS As String = ComboBox1.SelectedValue.ToString()
+
+        '    Integer.TryParse(valorS, valor)
+        '    MsgBox($"{ComboBox1.SelectedValue.ToString()}:  " & valor)
+
+        '    Dim ID_Animal As Integer = valor
+        '    MostrarDetallesAnimal(ID_Animal)
+        'End If
+    End Sub
+
+    Private Sub ComboBox1_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles ComboBox1.SelectionChangeCommitted
         If ComboBox1.SelectedValue IsNot Nothing Then
             'Dim valor As Integer  -> la declaro global
             Dim valorS As String = ComboBox1.SelectedValue.ToString()
 
             Integer.TryParse(valorS, valor)
-            'MsgBox("ComboBox1.SelectedValue.ToString():  " & valor)
+            'MsgBox($"{ComboBox1.SelectedValue.ToString()}:  " & valor)
 
             Dim ID_Animal As Integer = valor
             MostrarDetallesAnimal(ID_Animal)
         End If
-
     End Sub
 
     Private Sub MostrarDetallesAnimal(ID_Animal As Integer)
+        'Dim animal As Animal
+        Try
+            Dim animal = daoA.GetByID(ID_Animal)
 
-        Using connection As New SqlConnection(connectionString)
-            connection.Open()
-            Dim query As String = "SELECT Nombre_Animal, Edad_Animal, Peso_Animal, ID_Cliente,ID_Especie FROM Animales WHERE ID_Animal = @ID_Animal"
-            Dim command As New SqlCommand(query, connection)
-            command.Parameters.AddWithValue("@ID_Animal", ID_Animal)
+            With animal
 
-            Using reader As SqlDataReader = command.ExecuteReader()
-                If reader.Read() Then
-                    TextBox1.Text = reader("Nombre_Animal").ToString()
-                    TextBox2.Text = reader("Edad_Animal").ToString()
-                    TextBox3.Text = reader("Peso_Animal").ToString()
-                    TextBox4.Text = reader("ID_Cliente").ToString()
-                    TextBox5.Text = reader("ID_Especie").ToString()
+                'todo lo que empieza con . se refiere a la variable animal
+                TextBox1.Text = .nombre
+                TextBox2.Text = .edad.ToString()
+                TextBox3.Text = .peso.ToString()
+                TextBox4.Text = .clienteId.ToString()
+                TextBox5.Text = .especieId.ToString()
+            End With
 
-                End If
-            End Using
-        End Using
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+
+        'Using connection As New SqlConnection(connectionString)
+        '    connection.Open()
+        '    Dim query As String = "SELECT Nombre_Animal, Edad_Animal, Peso_Animal, ID_Cliente,ID_Especie FROM Animales WHERE ID_Animal = @ID_Animal"
+        '    Dim command As New SqlCommand(query, connection)
+        '    command.Parameters.AddWithValue("@ID_Animal", ID_Animal)
+
+        '    Using reader As SqlDataReader = command.ExecuteReader()
+        '        If reader.Read() Then
+        '            TextBox1.Text = reader("Nombre_Animal").ToString()
+        '            TextBox2.Text = reader("Edad_Animal").ToString()
+        '            TextBox3.Text = reader("Peso_Animal").ToString()
+        '            TextBox4.Text = reader("ID_Cliente").ToString()
+        '            TextBox5.Text = reader("ID_Especie").ToString()
+
+        '        End If
+        '    End Using
+        'End Using
 
     End Sub
 
@@ -96,45 +153,40 @@ Public Class ModificarAnimales
             Return ' Salir del evento si la conversión falla
         End If
 
-
-
         Edad_Animal = CInt(TextBox2.Text)
         Peso_Animal = CDec(TextBox3.Text)
         ID_Cliente = CInt(TextBox4.Text)
-        ID_Especie = CDec(TextBox5.Text)
-
-
-
-
-
-
+        ID_Especie = CInt(TextBox5.Text)
 
         ActualizarAnimal(ID_Animal, Nombre_Animal, Edad_Animal, Peso_Animal, ID_Cliente, ID_Especie)
-
 
     End Sub
 
     Private Sub ActualizarAnimal(ID_Animal As Integer, Nombre_Animal As String, Edad_Animal As Integer, Peso_Animal As Decimal, ID_Cliente As Integer, ID_Especie As Integer)
-        Using connection As New SqlConnection(connectionString)
-            connection.Open()
-            Dim query As String = "UPDATE Animales SET Nombre_Animal = @Nombre_Animal, Edad_Animal = @Edad_Animal, Peso_Animal = @Peso_Animal, ID_Cliente = @ID_Cliente, ID_Especie = @ID_Especie WHERE ID_Animal = @ID_Animal"
-            Dim command As New SqlCommand(query, connection)
-            command.Parameters.AddWithValue("@ID_Animal", ID_Animal)
-            command.Parameters.AddWithValue("@Nombre_Animal", Nombre_Animal)
-            command.Parameters.AddWithValue("@Edad_Animal", Edad_Animal)
-            command.Parameters.AddWithValue("@Peso_Animal", Peso_Animal)
-            command.Parameters.AddWithValue("@ID_Cliente", ID_Cliente)
-            command.Parameters.AddWithValue("@ID_Especie", ID_Especie)
+        'Using connection As New SqlConnection(connectionString)
+        '    connection.Open()
+        '    Dim query As String = "UPDATE Animales SET Nombre_Animal = @Nombre_Animal, Edad_Animal = @Edad_Animal, Peso_Animal = @Peso_Animal, ID_Cliente = @ID_Cliente, ID_Especie = @ID_Especie WHERE ID_Animal = @ID_Animal"
+        '    Dim command As New SqlCommand(query, connection)
+        '    command.Parameters.AddWithValue("@ID_Animal", ID_Animal)
+        '    command.Parameters.AddWithValue("@Nombre_Animal", Nombre_Animal)
+        '    command.Parameters.AddWithValue("@Edad_Animal", Edad_Animal)
+        '    command.Parameters.AddWithValue("@Peso_Animal", Peso_Animal)
+        '    command.Parameters.AddWithValue("@ID_Cliente", ID_Cliente)
+        '    command.Parameters.AddWithValue("@ID_Especie", ID_Especie)
 
 
-            Try
-                command.ExecuteNonQuery()
+        Try
+            'command.ExecuteNonQuery()
+            If daoA.Update(ID_Animal, Nombre_Animal, Edad_Animal,
+                        Peso_Animal, ID_Cliente, ID_Especie) Then
                 MessageBox.Show("Animal actualizado correctamente.")
-            Catch ex As Exception
-                MessageBox.Show("Error: " & ex.Message)
-            End Try
-        End Using
+            Else
+                Throw New Exception("No se pudo actualizar")
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error: " & ex.Message)
+        End Try
+        'End Using
     End Sub
-
 
 End Class

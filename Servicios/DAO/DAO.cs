@@ -10,15 +10,19 @@ namespace Servicios.DAO
 {
     public abstract class DAO
     {
-        public IDbConnection PrepararConexion()
+        public string conexionStr()
         {
             //obtener nombre de PC para conectarse a la db
             string nombrePC = Environment.MachineName;
 
-            string conexionStr = $"server={nombrePC}\\SQLEXPRESS;" +
+            return $"server={nombrePC}\\SQLEXPRESS;" +
                 $"Database=veterinariaDB;Integrated Security=true;TrustServerCertificate=true";
 
-            SqlConnection conexion = new SqlConnection(conexionStr);
+        }
+
+        public IDbConnection PrepararConexion()
+        {
+            SqlConnection conexion = new SqlConnection(this.conexionStr());
             conexion.Open();
 
             return conexion;            

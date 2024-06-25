@@ -2,19 +2,24 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Servicios.DAO
 {
+    
     public class DAOAnimales : DAO
     {
-        public List<Animal> GetAll()
+        public List<Animal> GetAll(
+            //si se pasa una query como parametro se puede obtener un listado con algun criterio especial
+            //sino se obtiene el listado completo
+            string queryEspecial = "SELECT * FROM Animales")
         {
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
-            comando.CommandText = "SELECT * FROM Animales";
+            comando.CommandText = queryEspecial;
 
             IDataReader lector = comando.ExecuteReader();
             List<Animal> lista = new List<Animal>();
@@ -32,6 +37,15 @@ namespace Servicios.DAO
 
             conexion.Close();
             return lista;
+        }
+
+        public DataTable getDt(string query)
+        {
+            SqlConnection conexion = (SqlConnection)this.PrepararConexion();
+            DataTable table = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(query, conexion);
+            adapter.Fill(table);
+            return table;
         }
 
 
@@ -79,7 +93,7 @@ namespace Servicios.DAO
 
         public bool Update(long id, string nombre, long edad, decimal peso, long clienteID, long especieID)
         {
-            string query = $"UPDATE Animales SET NOMBRE = '{nombre}', EDAD= '{edad}', PESO= '{peso}', CLIENTE_ID= '{clienteID}', ESPECIE_ID= '{especieID}' WHERE ID = {especieID}";
+            string query = $"UPDATE Animales SET NOMBRE = '{nombre}', EDAD= '{edad}', PESO= '{peso}', CLIENTE_ID= '{clienteID}', ESPECIE_ID= '{especieID}' WHERE ID = {id}";
 
             IDbConnection conexion = this.PrepararConexion();
             IDbCommand comando = conexion.CreateCommand();
@@ -132,6 +146,34 @@ namespace Servicios.DAO
 
             conexion.Close();
             return filas > 0;
+        }
+
+
+        public List<Animal> ordenarPorPeso(bool asc)
+        {
+            string ascDesc = "DESC";
+            if (asc) ascDesc = "ASC";
+
+            IDbConnection conexion = this.PrepararConexion();
+            IDbCommand comando = conexion.CreateCommand();
+            comando.CommandText = $"SELECT * FROM Animales ORDER BY PESO {ascDesc} ";
+
+            IDataReader lector = comando.ExecuteReader();
+            List<Animal> lista = new List<Animal>();
+
+            while (lector.Read())
+            {
+                lista.Add(new Animal(lector.GetInt32(0),
+                                      lector.GetString(1),
+                                      lector.GetInt32(2),
+                                      lector.GetDecimal(3),
+                                      lector.GetInt32(4),
+                                      lector.GetInt32(5)
+                                      ));
+            }
+
+            conexion.Close();
+            return lista;
         }
     }
 }
