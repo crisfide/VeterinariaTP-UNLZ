@@ -35,6 +35,29 @@ namespace Servicios.DAO
             conexion.Close();
             return usuarioEncontrado;
         }
+        public Usuario verificarUsuario(Usuario usuario)
+        {
+            Usuario usuarioEncontrado = null;
+            string query = $"SELECT * FROM USUARIOS WHERE NOMBRE='{usuario.nombre}' AND CLAVE='{usuario.clave}';";
+
+            IDbConnection conexion = this.PrepararConexion();
+            IDbCommand comando = conexion.CreateCommand();
+            comando.CommandText = query;
+
+            IDataReader lector = comando.ExecuteReader();
+            if (lector.Read())
+            {
+                usuarioEncontrado = new Usuario()
+                {
+                    id = lector.GetInt32(0),
+                    nombre = lector.GetString(1),
+                    clave = lector.GetString(2),
+                };
+            }
+
+            conexion.Close();
+            return usuarioEncontrado;
+        }
 
         public List<Usuario> GetAll()
         {

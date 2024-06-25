@@ -30,13 +30,13 @@ namespace consolaParaPruebas
             bool ok=false;
             try
             {
-                ok = daoA.Update("aaa", "bbb", 2, (decimal)20.0, 1, 32);
+                //ok = daoA.Update("aaa", "bbb", 2, (decimal)20.0, 1, 32);
             }catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
 
-            Console.WriteLine(ok);
+            Console.WriteLine("holaa");
             Console.ReadKey();
         }
     }
