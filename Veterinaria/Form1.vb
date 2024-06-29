@@ -18,7 +18,12 @@ Public Class Form1
         Try
             usuarioEnBD = daoU.verificarUsuario(Me.txtUsuario.Text, Me.txtContr.Text)
         Catch ex As Exception
-            MsgBox(ex.Message)
+            Dim mensaje As String = "No se pudo acceder a la base de datos." & vbCrLf & vbCrLf &
+                "Ingrese a SQL Server Management Studio" & vbCrLf &
+                "Haga clic derecho en databases" & vbCrLf &
+                "Seleccione Restore Database" & vbCrLf &
+                "Elija el archivo \SQL\backup" & vbCrLf & vbCrLf
+            MsgBox(mensaje & ex.Message, MsgBoxStyle.Critical)
         End Try
 
         If usuarioEnBD Is Nothing Then
